@@ -1,0 +1,67 @@
+﻿@model Application.DTO_s.TaskItemDto
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h1>Edit</h1>
+
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="ConfirmEdit" method="post">
+            <div asp-validation-summary="All" class="text-danger"></div>
+
+            <div class="form-group">
+                <label asp-for="Name"></label>
+                <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Description"></label>
+                <textarea asp-for="Description" class="form-control"></textarea>
+                <span asp-validation-for="Description" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Priority"></label>
+                @Html.DropDownListFor(
+                         model => model.Priority,
+                         new SelectList(
+                         Enum.GetValues(typeof(Domain.Enums.Priority))
+                         .Cast<Domain.Enums.Priority>()
+                         .Select(p => new { Text = p.ToString(), Value = p }),
+                         "Value", "Text", Model.Priority),
+                         new { @class = "form-control" })
+                <span asp-validation-for="Priority" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="DueDate"></label>
+                <input asp-for="DueDate" class="form-control" type="date" />
+                <span asp-validation-for="DueDate" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="AssignedUser"></label>
+                <input asp-for="AssignedUser" class="form-control" />
+                <span asp-validation-for="AssignedUser" class="text-danger"></span>
+            </div>
+
+            <input type="hidden" asp-for="Id" />
+
+            <button type="submit" class="btn btn-primary">Save</button>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
