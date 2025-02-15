@@ -16,7 +16,6 @@ namespace Application.Mapper
         public TaskAutoMapper()
         {
             CreateMap<TaskItemDto, TaskItem>().ReverseMap();
-
         }
     }
 }

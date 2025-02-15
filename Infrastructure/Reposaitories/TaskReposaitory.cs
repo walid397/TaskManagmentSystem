@@ -44,6 +44,8 @@ namespace Infrastructure.Reposaitories
         public Task<IQueryable<TaskItem>> GetAllAsync()
         {
             var ReturnedTasks = _dbset.Select(b => b);
+            //var ReturnedTasks = _dbset.ToList();
+
             return Task.FromResult(ReturnedTasks);
         }
 

@@ -4,11 +4,11 @@ namespace TaskManagementSystem.ViewModels
 {
     public class RegisterViewModel
     {
-        //[Required(ErrorMessage = "The FirstName is required.")]
+        [Required(ErrorMessage = "The FirstName is required.")]
         //[StringLength(20, MinimumLength = 3, ErrorMessage = "The FirstName must be between 3 and 20 characters.")]
         public string FirstName { get; set; }
 
-        //[Required(ErrorMessage = "The LastName is required.")]
+        [Required(ErrorMessage = "The LastName is required.")]
         //[StringLength(20, MinimumLength = 3, ErrorMessage = "The LastName must be between 3 and 20 characters.")]
         public string LastName { get; set; }
 
@@ -20,7 +20,7 @@ namespace TaskManagementSystem.ViewModels
         public string Password { get; set; }
 
 
-        //[Required(ErrorMessage = "Email is required.")]
+        [Required(ErrorMessage = "Email is required.")]
         //[EmailAddress(ErrorMessage = "Invalid email address format.")]
         public string Email { get; set; }
     }

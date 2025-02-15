@@ -1,6 +1,8 @@
 ﻿using Application.Contract;
 using Application.DTO_s;
 using Domain.Enums;
+using Domain.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace TaskManagementSystem.Controllers
@@ -79,6 +81,7 @@ namespace TaskManagementSystem.Controllers
      
 
         [HttpPost]
+        [Authorize(Roles ="Admin")]
         public async Task<IActionResult> Delete(int id)
         {
             var result = await _services.DeleteAsync(id);

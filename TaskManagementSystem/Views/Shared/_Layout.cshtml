@@ -1,6 +1,12 @@
-﻿<!DOCTYPE html>
+﻿@using Domain.Models
+@using Microsoft.AspNetCore.Identity
+<!DOCTYPE html>
+@inject SignInManager<User> _signInManager;
 <html lang="en">
 <head>
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta http-equiv="Expires" content="0" />
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - TaskManagementSystem</title>
@@ -28,12 +34,26 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="Register">Create Account</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="Login">Login</a>
-                        </li>
+                  @if (_signInManager.IsSignedIn(User))
+                        { 
+                              <li class="nav-item">
+                           <form method="post" asp-controller="Account" asp-action="Logout">
+                         <button type="submit" class="nav-link btn btn-link text-dark" style="border: none; background: none; cursor: pointer;">
+                                Logout
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="TaskItem" asp-action="Index">List</a>
                         </li>
+                                </button>
+                     </form>
+                 </li>
+                        }
+                        else
+                        {
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="Login">Login</a>
+                        </li>
+                        }
+                        
                      
                     </ul>
                 </div>
