@@ -78,10 +78,8 @@ namespace TaskManagementSystem
             builder.Services.AddScoped<ITaskReposaitory, TaskReposaitory>();
             builder.Services.AddScoped<IServices, Services>();
             builder.Services.AddScoped<AuthorizeService>();
-            builder.Services.AddHttpContextAccessor();
 
-            // store session in cache
-            builder.Services.AddDistributedMemoryCache();
+          
             builder.Services.AddSession(options =>
             {
                 options.IdleTimeout = TimeSpan.FromDays(1);

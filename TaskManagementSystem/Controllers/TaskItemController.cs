@@ -2,11 +2,13 @@
 using Application.DTO_s;
 using Domain.Enums;
 using Domain.Models;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace TaskManagementSystem.Controllers
 {
+    [Authorize]
     public class TaskItemController : Controller
     {
      private IServices _services;
@@ -81,7 +83,10 @@ namespace TaskManagementSystem.Controllers
      
 
         [HttpPost]
+
+
         [Authorize(Roles ="Admin")]
+        [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
         public async Task<IActionResult> Delete(int id)
         {
             var result = await _services.DeleteAsync(id);

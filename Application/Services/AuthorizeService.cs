@@ -12,7 +12,6 @@ namespace Application.Services
     public class AuthorizeService
     {
         private UserManager<User> _userManager;
-
         public AuthorizeService(UserManager<User> userManager, SignInManager<User> signInManager)
         {
 
@@ -28,19 +27,15 @@ namespace Application.Services
                         IsSuccessfull = true,
                         ErrorMessage = "Admin Role Will Assigned"
                     };
-                }
-               
+                }              
                     return new ResponseDTO<User>
                     {
                         IsSuccessfull = false,
                         ErrorMessage = "User Role Will Assigned"
-                    };
-
-               
+                    }; 
             }
             return new ResponseDTO<User>
             {
-
                 IsSuccessfull = false,
                 ErrorMessage = "User Doesn't Exist"
             };

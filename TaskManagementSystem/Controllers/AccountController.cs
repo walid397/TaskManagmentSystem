@@ -70,31 +70,7 @@ namespace TaskManagementSystem.Controllers
             }
             return View("Register", UserViewModel);
         }
-        //[HttpPost]
-        //public async Task<IActionResult> SaveRegister(RegisterViewModel UserViewModel)
-        //{
-
-        //    if (ModelState.IsValid)
-        //    {
-        //        User user = new User();
-        //        user.Email = UserViewModel.Email;
-        //        user.PasswordHash = UserViewModel.Password;
-        //        user.UserName = UserViewModel.FirstName;
-
-        //     IdentityResult respons  =  await _userManager.CreateAsync(user,UserViewModel.Password);
-        //        if (respons.Succeeded)
-        //        {
-        //            //Create Cookie
-        //         await _signInManager.SignInAsync(user, isPersistent: false);
-        //            RedirectToAction("Index", "Home");
-        //        }
-        //        foreach (var item in respons.Errors)
-        //        {
-        //            ModelState.AddModelError("", item.Description);
-        //        }
-        //    }
-        //     return View("Register", UserViewModel);
-        //}
+ 
         [HttpPost]
         public async Task<IActionResult> Logout()
         {
@@ -104,8 +80,9 @@ namespace TaskManagementSystem.Controllers
 
 
         [HttpGet]
-        public IActionResult Login()
+        public IActionResult Login(string ReturnUrl)
         {
+            TempData["ReturnUrl"] = ReturnUrl;
             return View();
         }
 
@@ -126,9 +103,9 @@ namespace TaskManagementSystem.Controllers
 
                             if (respons.Succeeded)
                             {
-                                await _signInManager.SignInAsync(user, isPersistent: true); // 👈 حفظ الكوكيز هنا
+                            //Generate Cookie
+                                await _signInManager.SignInAsync(user, isPersistent: false); 
                             }
-                            //var mappingLoginDto = _mapper.Map<LoginDTO>(userViewModel);
                             LoginDTO mappingLoginDto = new LoginDTO
                             {
                                 Name = userViewModel.Username,
@@ -175,13 +152,21 @@ namespace TaskManagementSystem.Controllers
 
 
 
+                        var tokenString = new JwtSecurityTokenHandler().WriteToken(mytoken);
+                        Response.Cookies.Append("AuthToken", tokenString, new CookieOptions
+                        {
+                            HttpOnly = true,
+                            Secure = true,
+                            SameSite = SameSiteMode.Strict,
+                            Expires = DateTimeOffset.UtcNow.AddHours(1)
+                        });
+                        if (TempData["ReturnUrl"]!=null)
+                        {
 
-                            return RedirectToAction("Index", "TaskItem", new
-                            {
-                                token = new JwtSecurityTokenHandler().WriteToken(mytoken),
-                                expiration = DateTime.Now.AddDays(1)
-                            });
-                            //return RedirectToAction("Index", "TaskItem");
+                            return Redirect(TempData["ReturnUrl"] as string);
+                        }
+                        return RedirectToAction("Login" , "Account");
+                          
 
                         }
                     }
