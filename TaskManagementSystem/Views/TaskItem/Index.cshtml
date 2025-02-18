@@ -7,7 +7,8 @@
 <h1>List Of Tasks</h1>
 
 <p>
-    <a asp-action="Create">Create New</a>
+
+    <a class="btn btn-primary" asp-action="Create">Create New</a>
 </p>
 
 <form asp-action="SearchByPriority" method="get">
@@ -20,7 +21,10 @@
             <option value="High">High</option>
         </select>
     </div>
-    <button type="submit" class="btn btn-primary">Search</button>
+    <button class="btn btn-primary" type="submit">
+        <img src="~/assets/icons/search.svg" alt="Search" />
+        Search
+    </button>
 </form>
 
 <table class="table">
@@ -70,9 +74,15 @@
                     @Html.DisplayFor(modelItem => item.AssignedUser)
                 </td>
                 <td>
-                    @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
-                    @Html.ActionLink("Details", "Details", new { id = item.Id }) |
 
+                    <form asp-action="Edit" method="post" style="display:inline;">
+                        <input type="hidden" name="id" value="@item.Id" />
+                        <button type="submit" class="btn btn-warning">Edit</button>
+                    </form>
+                    <form asp-action="Details" method="post" style="display:inline;">
+                        <input type="hidden" name="id" value="@item.Id" />
+                        <button type="submit" class="btn btn-info">Details</button>
+                    </form>
                     <form asp-action="Delete" method="post" style="display:inline;">
                         <input type="hidden" name="id" value="@item.Id" />
                         <button type="submit" class="btn btn-danger">Delete</button>

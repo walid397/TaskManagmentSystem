@@ -165,7 +165,7 @@ namespace TaskManagementSystem.Controllers
 
                             return Redirect(TempData["ReturnUrl"] as string);
                         }
-                        return RedirectToAction("Login" , "Account");
+                        return RedirectToAction("Index" , "TaskItem");
                           
 
                         }
