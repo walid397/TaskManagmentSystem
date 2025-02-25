@@ -1,6 +1,7 @@
 ﻿using Application.DTO_s;
 using AutoMapper;
 using Domain.Models;
+
 using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;
@@ -16,6 +17,8 @@ namespace Application.Mapper
         public TaskAutoMapper()
         {
             CreateMap<TaskItemDto, TaskItem>().ReverseMap();
+            //CreateMap<Role, UpdateRoleViewModel>().ReverseMap();
+
         }
     }
 }

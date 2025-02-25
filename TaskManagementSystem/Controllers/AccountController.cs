@@ -25,13 +25,12 @@ namespace TaskManagementSystem.Controllers
         private IHttpContextAccessor _httpContextAccessor;
         private RoleManager<Role> _roleManager;
         private AuthorizeService _authorizeService;
-        public AccountController(UserManager<User> userManager, SignInManager<User> signInManager, IMapper mapper, IConfiguration configur, IHttpContextAccessor httpContextAccessor, RoleManager<Role> roleManager, AuthorizeService authorizeService)
+        public AccountController(UserManager<User> userManager, SignInManager<User> signInManager, IMapper mapper, IConfiguration configur, RoleManager<Role> roleManager, AuthorizeService authorizeService)
         {
             _userManager = userManager;
             _mapper = mapper;
             _signInManager = signInManager;
             _config = configur;
-            _httpContextAccessor = httpContextAccessor;
             _roleManager = roleManager;
             _authorizeService = authorizeService;
         }
@@ -162,7 +161,6 @@ namespace TaskManagementSystem.Controllers
                         });
                         if (TempData["ReturnUrl"]!=null)
                         {
-
                             return Redirect(TempData["ReturnUrl"] as string);
                         }
                         return RedirectToAction("Index" , "TaskItem");

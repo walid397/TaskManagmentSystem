@@ -1,20 +1,18 @@
-﻿using Microsoft.AspNet.Identity.EntityFramework;
-using Microsoft.AspNetCore.Identity;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Domain.Models
+namespace Application.DTO_s
 {
-    public class Role:IdentityRole<int>
+    public class UpdateRoleDTO
     {
-        public Role( )
-        {
-            
-        }
+        public int Id { get; set; }
+        [Required]
+        public string Name { get; set; }
+
         [Required]
         public bool IsActive { get; set; }
     }

@@ -74,19 +74,9 @@
                     @Html.DisplayFor(modelItem => item.AssignedUser)
                 </td>
                 <td>
-
-                    <form asp-action="Edit" method="post" style="display:inline;">
-                        <input type="hidden" name="id" value="@item.Id" />
-                        <button type="submit" class="btn btn-warning">Edit</button>
-                    </form>
-                    <form asp-action="Details" method="post" style="display:inline;">
-                        <input type="hidden" name="id" value="@item.Id" />
-                        <button type="submit" class="btn btn-info">Details</button>
-                    </form>
-                    <form asp-action="Delete" method="post" style="display:inline;">
-                        <input type="hidden" name="id" value="@item.Id" />
-                        <button type="submit" class="btn btn-danger">Delete</button>
-                    </form>
+                    <a asp-action="Edit" asp-controller="TaskItem" asp-route-id="@item.Id" class="btn btn-warning">Edit</a>
+                    <a asp-action="Details" asp-controller="TaskItem" asp-route-id="@item.Id" class="btn btn-info">Details</a>
+                    <a asp-action="Delete" asp-controller="TaskItem" asp-route-id="@item.Id" class="btn btn-danger">Delete</a>
                 </td>
             </tr>
         }

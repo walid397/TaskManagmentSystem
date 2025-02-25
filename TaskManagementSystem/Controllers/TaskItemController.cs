@@ -48,7 +48,7 @@ namespace TaskManagementSystem.Controllers
 
             return RedirectToAction("Index");
         }
-     
+
         public async Task<IActionResult> Edit(int id)
         {
             var taskResult = await _services.GetByIdAsync(id);
