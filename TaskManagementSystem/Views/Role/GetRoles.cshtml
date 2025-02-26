@@ -7,7 +7,7 @@
 <h1>Roles</h1>
 
 <p>
-    <a asp-action="Create">Create New</a>
+    <a asp-action="Create" id="saveRoleBtn">Create New</a>
 </p>
 <table class="table">
     <thead>
@@ -39,3 +39,32 @@
 }
     </tbody>
 </table>
+<script>
+    $("#saveRoleBtn").click(function () {
+        const role = {
+            id: $("#roleId").val(),
+            name: $("#roleName").val(),
+            isActive: $("#isActive").is(":checked")
+        };
+
+        console.log("Sending data:", role); 
+
+        $.ajax({
+            url: "/Role/Create",
+            type: "POST",
+            contentType: "application/json",
+            dataType: "json",
+            data: JSON.stringify(role),
+            success: function (response) {
+                alert(response.message);
+                window.location.href = "/Role/GetRoles";
+            },
+            error: function (xhr, status, error) {
+                console.log("AJAX Error:", xhr.responseText);
+                alert("Error updating role: " + xhr.responseText);
+            }
+        });
+    });
+
+
+</script>

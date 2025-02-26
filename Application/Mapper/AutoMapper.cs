@@ -17,7 +17,7 @@ namespace Application.Mapper
         public TaskAutoMapper()
         {
             CreateMap<TaskItemDto, TaskItem>().ReverseMap();
-            //CreateMap<Role, UpdateRoleViewModel>().ReverseMap();
+            CreateMap<Role, CreateRoleDTO>().ReverseMap();
 
         }
     }

@@ -3,11 +3,14 @@
 @{
     ViewData["Title"] = "Update Role";
 }
+<link rel="stylesheet" href="~/css/rolestyle.css">
 
 <h1>Update Role</h1>
 
 <div class="row">
     <div class="col-md-6">
+        <div id="messageContainer"></div> <!-- مكان عرض رسائل التنبيه -->
+
         <div class="form-group">
             <label>Name</label>
             <input type="text" id="roleName" class="form-control" value="@Model.Name" />
@@ -26,30 +29,5 @@
     </div>
 </div>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-<script>
-    $(document).ready(function () {
-        $("#saveRoleBtn").click(function () {
-            const role = {
-                id: $("#roleId").val(),
-                name: $("#roleName").val(),
-                isActive: $("#isActive").is(":checked")
-            };
-
-            $.ajax({
-                url: "/Role/SaveUpdate",
-                type: "POST",
-                contentType: "application/json",
-                dataType: "json", 
-                data: JSON.stringify(role),
-                success: function (response) {
-                    alert(response.message);
-                    window.location.href = "/Role/GetRoles"; 
-                },
-                error: function () {
-                    alert("Error updating role.");
-                }
-            });
-        });
-    });
-</script>
+<!-- تحميل ملف الجافاسكريبت -->
+<script src="~/js/Role.js"></script>

@@ -5,6 +5,9 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.CodeAnalysis.CSharp;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
+using Microsoft.DotNet.Scaffolding.Shared.Messaging;
+using NuGet.Protocol.Plugins;
 using TaskManagementSystem.ViewModels;
 
 namespace TaskManagementSystem.Controllers
@@ -25,15 +28,21 @@ namespace TaskManagementSystem.Controllers
         public async Task<IActionResult> GetRoles()
         {
             var ListOfRoles = _roleManager.Roles.ToList();
-
-            var MappedRoles = ListOfRoles.Select(role => new GetRolesViewModels
+            if (ListOfRoles != null)
             {
-                Id = role.Id,
-                Name = role.Name,
-                IsActive = role.IsActive
-            }).ToList();
+                var MappedRoles = ListOfRoles.Select(role => new GetRolesViewModels
+                {
+                    Id = role.Id,
+                    Name = role.Name,
+                    IsActive = role.IsActive
+                }).ToList();
 
-            return View(MappedRoles); 
+                return View(MappedRoles);
+            }
+            else
+            {
+                return BadRequest(new{ message = "List Is Empty" });
+            }
         }
         public async Task<IActionResult> UpdateRoles(int id)
         {
@@ -58,31 +67,62 @@ namespace TaskManagementSystem.Controllers
             {
             if(ModelState.IsValid)
             {
-                    if (model == null) return BadRequest(new { message = "Invalid data" });
-            }
+
             var RoleById =await _roleManager.FindByIdAsync(model.Id.ToString());
-                RoleById.Id=model.Id;
-                RoleById.Name=model.Name;
-                RoleById.IsActive=model.IsActive;
+                if (RoleById != null)
+                {
 
-            //var roleupdated = new UpdateRoleViewModel
-            //{
-            //    Id = RoleById.Id,
-            //    Name = RoleById.Name,
-            //    IsActive = RoleById.IsActive,
+                    RoleById.Name = model.Name;
+                    RoleById.IsActive = model.IsActive;
+                }
+                else
+                {
+                    return BadRequest(new { message = "Role Doesn't Exist" });
+                }               
+                 await _roleManager.UpdateAsync(RoleById);
+            }
 
-            //};
-                //var roledisplayed = new Role()
-                //{
-                //    Id = roleupdated.Id,
-                //    Name = roleupdated.Name,
-                //    IsActive = roleupdated.IsActive,
-                //};
-                
-                var RoleFinally = await _roleManager.UpdateAsync(RoleById);
             return Ok(new { message = "Role updated successfully" }); 
             }
             return BadRequest(new { message = "Invalid data" });
+        }
+        public async Task<IActionResult> Delete(int id)
+        {
+          var RoleById =  await _roleManager.FindByIdAsync(id.ToString());
+            if(RoleById != null)
+            {
+
+                await _roleManager.DeleteAsync(RoleById);
+                return RedirectToAction("GetRoles");
+
+            }
+            return BadRequest(new { message = "Role Doesn't Exist" });
+            
+        }
+        [HttpGet]
+        public async Task<IActionResult> Create(CreateRoleDTO Roledto)
+        {
+            return View(Roledto);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> CreateRole(CreateRoleDTO Roledto)
+        {
+            if (Roledto != null) 
+            {
+
+            if (ModelState.IsValid)
+            {
+
+            var rolemapped  =  _mapper.Map<Role>(Roledto);
+            await _roleManager.CreateAsync(rolemapped);
+            }
+                return RedirectToAction("GetRoles");
+            
+
+            }
+            return BadRequest(new { message = "Invalid Role" });
+
         }
     }
 }

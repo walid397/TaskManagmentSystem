@@ -1,0 +1,64 @@
+﻿/* ✅ تحسين تنسيق الفورم */
+.form-group {
+    margin-bottom: 15px;
+}
+
+input[type="text"] {
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    padding: 8px;
+    width: 100%;
+}
+
+/* ✅ تحسين شكل زر الحفظ */
+#saveRoleBtn {
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+    font-weight: bold;
+    border-radius: 5px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    transition: background 0.3s ease;
+}
+
+    #saveRoleBtn:hover {
+        background-color: #0056b3;
+    }
+
+/* ✅ تحسين شكل رسالة التنبيه */
+.alert {
+    margin-top: 10px;
+    padding: 12px;
+    border-radius: 5px;
+    font-size: 14px;
+}
+
+.alert-success {
+    background-color: #d4edda;
+    border-left: 5px solid #28a745;
+    color: #155724;
+}
+
+.alert-danger {
+    background-color: #f8d7da;
+    border-left: 5px solid #dc3545;
+    color: #721c24;
+}
+
+/* ✅ تحسين شكل الـ Checkbox */
+input[type="checkbox"] {
+    transform: scale(1.2);
+    margin-right: 5px;
+}
+
+/* ✅ تحسين الحاوية */
+.row {
+    max-width: 500px;
+    margin: auto;
+    background: #f8f9fa;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+}
