@@ -1,19 +1,11 @@
 ﻿document.addEventListener("DOMContentLoaded", function () {
     document.getElementById("saveRoleBtn").addEventListener("click", function () {
-        const roleId = document.getElementById("roleId").value;
-        const roleName = document.getElementById("roleName").value.trim();
-        const isActive = document.getElementById("isActive").checked;
-
-        // التحقق من إدخال الاسم
-        if (roleName === "") {
-            showMessage("danger", "Role name cannot be empty.");
-            return;
-        }
 
         const roleData = {
-            id: roleId,
-            name: roleName,
-            isActive: isActive
+            id: $("#roleId").val(),
+            name: $("#roleName").val().trim(),
+            isActive: $("#isActive").is(":checked"),
+            concurrencyStamp: $("#ConcurrencyStamp").val()
         };
 
         fetch("/Role/SaveUpdate", {
@@ -21,27 +13,38 @@
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(roleData)
         })
-            .then(response => response.json())
+            .then(response => {
+                if (!response.ok) {
+                    return response.json().then(err => {
+                        let errors = err.errors.map(e => `${e}<br>`).join("");
+                        $("#nameError").html(errors);
+                        console.log(response);
+                        throw new Error(errors);
+                    });
+                }
+                return response.json();
+            })
             .then(data => {
-                console.log(data); // ✅ تحقق مما يتم إرجاعه من السيرفر
                 if (data.success) {
                     showMessage("success", data.message);
-                    window.location.href = "/Role/GetRoles"; // 🔄 التنقل مباشرة بدون تأخير
+                    setTimeout(() => {
+                        window.location.href = "/Role/GetRoles";
+                    }, 1500);
                 } else {
-                    showMessage("success", data.message);
+                    showMessage("error", data.message);
                 }
             })
-
-            .catch(() => {
-                showMessage("danger", "Error updating role.");
+            .catch(err => {
+                showMessage("error", err.message);
             });
     });
 
     function showMessage(type, message) {
-        document.getElementById("messageContainer").innerHTML = `
-            <div class="alert alert-${type} alert-dismissible fade show" role="alert">
-                ${message}
-            </div>
-        `;
+        Swal.fire({
+            icon: type,
+            title: message,
+            showConfirmButton: false,
+            timer: 3000
+        });
     }
 });

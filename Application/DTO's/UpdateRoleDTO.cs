@@ -10,10 +10,14 @@ namespace Application.DTO_s
     public class UpdateRoleDTO
     {
         public int Id { get; set; }
-        [Required]
+        [Required(ErrorMessage = "Name is required")]
+        [RegularExpression("^[a-zA-Z ]+$", ErrorMessage = "Name must contain only letters")]
         public string Name { get; set; }
 
         [Required]
         public bool IsActive { get; set; }
+
+        public string ConcurrencyStamp { get; set; }
+
     }
 }

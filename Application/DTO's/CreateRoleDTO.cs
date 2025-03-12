@@ -15,5 +15,6 @@ namespace Application.DTO_s
 
         [Required]
         public bool IsActive { get; set; }
+        public string ConcurrencyStamp { get; set; } = Guid.NewGuid().ToString();
     }
 }

@@ -14,7 +14,7 @@ namespace Application.Services
 {
     public class Services : IServices
     {
-        ITaskReposaitory _taskReposaitory;
+      public readonly ITaskReposaitory _taskReposaitory;
         IMapper _mapper;
         public Services(ITaskReposaitory taskReposaitory, IMapper mapper ) 
         {
