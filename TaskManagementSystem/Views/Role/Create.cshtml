@@ -9,29 +9,29 @@
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="Create">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <input asp-for="Id" class="form-control" hidden />
+       
+        <div id="messageContainer"></div>
+        <div class="form-group">
+            <input type="hidden" id="roleId" value="@Model.Id" />
+            <input type="hidden" id="ConcurrencyStamp" value="@Model.ConcurrencyStamp" />
 
             </div>
             <div class="form-group">
                 <input type="hidden" name="Id" value="@Model.Id" />
                 <input type="hidden" name="ConcurrencyStamp" value="@Model.ConcurrencyStamp" />
 
-                <label asp-for="Name" class="control-label"></label>
-                <input asp-for="Name" class="form-control" />
-                <span asp-validation-for="Name" class="text-danger"></span>
-            </div>
-            <div class="form-group form-check">
-                <label class="form-check-label">
-                    <input class="form-check-input" asp-for="IsActive" /> @Html.DisplayNameFor(model => model.IsActive)
-                </label>
-            </div>
+            <input type="text" id="roleName" class="form-control" value="@Model.Name" />
+        </div>
+        <div class="form-group">
+            <label>
+                <input type="checkbox" id="isActive" @(Model.IsActive ? "checked" : "") />
+                Active
+            </label>
+        </div>
             <div class="form-group">
-                <input asp-action="CreateRole" type="submit" value="Create" class="btn btn-primary" />
+                <button id="saveRoleBtn" class="btn btn-primary">Create</button>
             </div>
-        </form>
+        
     </div>
 </div>
 
@@ -39,6 +39,5 @@
     <a asp-action="GetRoles">Back to List</a>
 </div>
 
-@section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-}
+<script src="~/js/Role.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>

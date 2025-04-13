@@ -14,7 +14,6 @@ using TaskManagementSystem.ViewModels;
 namespace TaskManagementSystem.Controllers
 {
     [Authorize]
-
     public class RoleController : Controller
     {
         private RoleManager<Role> _roleManager;
@@ -81,7 +80,7 @@ namespace TaskManagementSystem.Controllers
                         return BadRequest(new { success = false, message = "Invalid data" });
                     }
                     await _roleManager.UpdateAsync(RoleById);
-                    return Ok(new { success = true, message = "Role updated successfully" });
+                    return Ok(new { success = true, message = "Role updated Successfully" });
                 }
                 return BadRequest(new { success = false, message = "Invalid data", errors = ModelState.Values.SelectMany(e => e.Errors).Select(e => e.ErrorMessage) });
 
@@ -96,7 +95,7 @@ namespace TaskManagementSystem.Controllers
             {
 
                 await _roleManager.DeleteAsync(RoleById);
-                return RedirectToAction("GetRoles");
+                return Ok(new { success = true, message = "Role Deleted Successfully" });
 
             }
             return BadRequest(new { success = false, message = "Role Doesn't Exist" });
@@ -108,8 +107,11 @@ namespace TaskManagementSystem.Controllers
             return View(Roledto);
         }
 
+
         [HttpPost]
-        public async Task<IActionResult> CreateRole(CreateRoleDTO Roledto)
+        [Route("Role/CreateRole")]
+        public async Task<IActionResult> CreateRole([FromBody] CreateRoleDTO Roledto)
+
         {
             if (Roledto != null)
             {
@@ -122,7 +124,7 @@ namespace TaskManagementSystem.Controllers
 
                         var rolemapped = _mapper.Map<Role>(Roledto);
                         await _roleManager.CreateAsync(rolemapped);
-                        return RedirectToAction("GetRoles");
+                        return Ok(new { success = true, message = "Role created successfully" }); // ✅ هنا الحل
 
                     }
                     else
@@ -134,5 +136,20 @@ namespace TaskManagementSystem.Controllers
             }
             return BadRequest(new { success = false, message = "Invalid data" });
         }
+        public async Task<IActionResult> Details(int id)
+        {
+            var role = await _roleManager.FindByIdAsync(id.ToString());
+            if (role != null)
+            {
+                return Json(new
+                {
+                    data = role,
+                    success = true,
+                });
+
+            }
+            return BadRequest(new { success = false, message = "Invalid data" });
+        }
+
     }
 }

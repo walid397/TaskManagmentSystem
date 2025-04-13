@@ -32,39 +32,12 @@
             </td>
             <td>
                     <a asp-action="UpdateRoles" asp-controller="Role" asp-route-id="@item.Id" class="btn btn-warning">Edit</a>
-                    <a asp-action="Details" asp-controller="Role" asp-route-id="@item.Id" class="btn btn-info">Details</a>
-                    <a asp-action="Delete" asp-controller="Role" asp-route-id="@item.Id" class="btn btn-danger">Delete</a>
-            </td>
+                    <button class="btn btn-info details-role-btn" info-id="@item.Id">Details</button>
+                    <button class="btn btn-danger delete-role-btn" data-id="@item.Id">Delete</button>
+                </td>
         </tr>
 }
     </tbody>
 </table>
-<script>
-    $("#saveRoleBtn").click(function () {
-        const role = {
-            id: $("#roleId").val(),
-            name: $("#roleName").val(),
-            isActive: $("#isActive").is(":checked")
-        };
-
-        console.log("Sending data:", role); 
-
-        $.ajax({
-            url: "/Role/Create",
-            type: "POST",
-            contentType: "application/json",
-            dataType: "json",
-            data: JSON.stringify(role),
-            success: function (response) {
-                alert(response.message);
-                window.location.href = "/Role/GetRoles";
-            },
-            error: function (xhr, status, error) {
-                console.log("AJAX Error:", xhr.responseText);
-                alert("Error updating role: " + xhr.responseText);
-            }
-        });
-    });
-
-
-</script>
+<script src="~/js/Role.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
